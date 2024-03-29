@@ -1,6 +1,6 @@
 Generates random strings. Defaults to 12 chars of lowercase and numbers.
 
-Usage: randomstringgen [FLAGS] [SIZE]
+Usage: randomstringgen [SIZE] [FLAGS]
 
 FLAGS:
 
