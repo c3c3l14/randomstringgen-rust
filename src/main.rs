@@ -100,7 +100,7 @@ fn main () {
                     all = true;
                 },
                 _ => {
-                    size = args[1].parse::<usize>().unwrap();
+                    size = arg.parse::<usize>().unwrap();
                 }
             }
         }
