@@ -4,10 +4,14 @@ Usage: randomstringgen [SIZE] [FLAGS]
 
 FLAGS:
 
-        -s              Specify the size of the string
         -u              Include uppercase letters
+
         -l              Include lowercase letters
+
         -n              Include numbers
+
         -p              Include punctuation
+
         -a              Include all characters
+
         -h              Display help message
