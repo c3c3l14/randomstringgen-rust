@@ -1,6 +1,18 @@
 use std::env;
 use rand::Rng;
 
+fn print_help () {          // print help message and exit
+    println!("Usage: randomstringgen [FLAGS] [SIZE]");
+    println!("FLAGS:");
+    println!("\t-u\t\tInclude uppercase letters");
+    println!("\t-l\t\tInclude lowercase letters");
+    println!("\t-n\t\tInclude numbers");
+    println!("\t-p\t\tInclude punctuation");
+    println!("\t-a\t\tInclude all characters");
+    println!("\t-h\t\tDisplay this help message");
+    // and exit
+}
+
 fn generate_string (size: usize, uppercase: bool, lowercase: bool, numbers: bool, punctuation: bool, all: bool) -> String {
     let mut string = String::new();
     let mut string_chars = String::new(); // Change the type to String
@@ -43,7 +55,6 @@ fn main () {
 
     // usage: defualt string generated is 12 chars long and contains only lowercase letters and numbers
     // usage: if only  integer is provided it will be used as the length of the string
-    // usage: the -s flag can also be used to specify the length (size) of the string
     // usage: the -u flag can be used to include uppercase letters
     // usage: the -l flag can be used to include lowercase letters
     // usage: the -n flag can be used to include numbers
@@ -51,6 +62,7 @@ fn main () {
     // usage: the -a flag can be used to include all characters
     // usage: the -h flag can be used to display the help message
     // usage: if any flags are provided the others are assumed to be false
+    // usage: if any flags are malformed just spit out the help monologue instead of letting the program panic
 
     let mut size = 12;
     let mut uppercase = false;
@@ -68,21 +80,8 @@ fn main () {
         for arg in &args[1..] {
             match arg.as_str() {
                 "-h" => {
-                    println!("Usage: randomstringgen [FLAGS] [SIZE]");
-                    println!("FLAGS:");
-                    println!("\t-s\t\tSpecify the size of the string");
-                    println!("\t-u\t\tInclude uppercase letters");
-                    println!("\t-l\t\tInclude lowercase letters");
-                    println!("\t-n\t\tInclude numbers");
-                    println!("\t-p\t\tInclude punctuation");
-                    println!("\t-a\t\tInclude all characters");
-                    println!("\t-h\t\tDisplay this help message");
+                    print_help();
                     return;
-                },
-                "-s" => {
-                    if args.len() > 2 {
-                        size = args[2].parse::<usize>().unwrap();
-                    }
                 },
                 "-u" => {
                     uppercase = true;
@@ -99,8 +98,17 @@ fn main () {
                 "-a" => {
                     all = true;
                 },
+
                 _ => {
-                    size = arg.parse::<usize>().unwrap();
+                    if arg.starts_with("-") {
+                        print_help();
+                        std::process::exit(1);
+                    } else if !arg.parse::<usize>().is_ok() {
+                        print_help();
+                        std::process::exit(1);
+                    } else {
+                        size = arg.parse::<usize>().unwrap();
+                    }
                 }
             }
         }
